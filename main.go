@@ -6,14 +6,6 @@ import (
 	"html/template"
 )
 
-type ContactInfo struct {
-	Telegram string
-	Vk string
-	Github string
-	Discord string
-	EMail string
-}
-
 // User defenition
 type User struct {
 	Name string
@@ -48,13 +40,6 @@ func home(w http.ResponseWriter, r *http.Request) {
 }
 
 func contact(w http.ResponseWriter, r *http.Request) {
-	contact := ContactInfo {
-		"@cseltol",
-		"vk.com/montar_owo",
-		"github.com/cseltol",
-		"cseltol#6071",
-		"xeltolgit@inbox.ru",
-	}
 	t, e := template.ParseFiles("templates/contact.html")
 	if e != nil {
 		panic(e)
@@ -67,7 +52,7 @@ func about(w http.ResponseWriter, r *http.Request) {
 	if e != nil {
 		panic(e)
 	}
-	t.Execute(w, "")
+	t.Execute(w, about)
 }
 
 func handler() {
