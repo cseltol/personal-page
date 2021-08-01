@@ -1,11 +1,18 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"html/template"
 )
+
+type ContactInfo struct {
+	Telegram string
+	Vk string
+	Github string
+	Discord string
+	EMail string
+}
 
 // User defenition
 type User struct {
@@ -41,11 +48,26 @@ func home(w http.ResponseWriter, r *http.Request) {
 }
 
 func contact(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Contact me @cseltol in telegram")
+	contact := ContactInfo {
+		"@cseltol",
+		"vk.com/montar_owo",
+		"github.com/cseltol",
+		"cseltol#6071",
+		"xeltolgit@inbox.ru",
+	}
+	t, e := template.ParseFiles("templates/contact.html")
+	if e != nil {
+		panic(e)
+	}
+	t.Execute(w, contact)
 }
 
 func about(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "coming soon")
+	t, e := template.ParseFiles("templates/about.html")
+	if e != nil {
+		panic(e)
+	}
+	t.Execute(w, "")
 }
 
 func handler() {
