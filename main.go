@@ -1,9 +1,10 @@
 package main
 
 import (
+	"fmt"
+	"html/template"
 	"log"
 	"net/http"
-	"html/template"
 )
 
 // User defenition
@@ -17,14 +18,17 @@ type User struct {
 }
 
 func main() {
-	handler()
+	if err := handler(); err != nil {
+		log.Fatal(err)
+		return
+	}
 }
 
 func home(w http.ResponseWriter, r *http.Request) {
 	user := User {
 		"Ivan",
 		18,
-		"Junior Web-Developer", 
+		"Self-educated Backend-Developer", 
 		0.0,
 		4.5,
 		[]string{
@@ -55,9 +59,12 @@ func about(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, about)
 }
 
-func handler() {
+func handler() error {
 	http.HandleFunc("/", home)
 	http.HandleFunc("/contact", contact)
 	http.HandleFunc("/about", about)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+
+	fmt.Println("Starting server on URL: `localhost:5000`")
+	
+	return http.ListenAndServe(":5000", nil)
 }
